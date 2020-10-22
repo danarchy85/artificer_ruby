@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "artificer_ruby"
+
+if __NAME__ = $PROGRAM_NAME
+  ArtificerRuby.new
+end
+

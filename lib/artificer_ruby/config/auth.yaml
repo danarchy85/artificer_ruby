@@ -1,0 +1,13 @@
+---
+endpoint: https://127.0.0.1:8080
+username: admin
+password: password
+api_key: null
+proxy_address: null
+proxy_password: null
+proxy_port: null
+proxy_username: null
+ssl_pem_file: null
+ssl_verify: null
+user_agent: null
+read_timeout: null

@@ -1,6 +1,11 @@
 
 module ArtificerRuby
   class Daemon
+    ##
+    # Checks for whether a PID exists without a running process, and will clean up the PID file.
+    #
+    # And it checks whether a running process exists but the PID file went missing, and recreates the PID file.
+
     class Pid
       def self.new
         pidfile = '/tmp/artificer_ruby.pid'

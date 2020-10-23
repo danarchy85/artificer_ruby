@@ -1,12 +1,21 @@
 require "artificer_ruby/daemon/pid"
 
 module ArtificerRuby
+  ##
+  # Forks a process with PID writen to /tmp/ and keeps the runner alive.
+  #
+  # This works in such a way that allows ArtificerRuby to run, start the daemon, and exit.
+  # Then at a later time be ran again to reattach to the PID and check its status or stop it.
+
   class Daemon
     attr_reader :runner
 
     def initialize
-      @cfg = ArtificerRuby.new
+      @cfg = ArtificerRuby::Config.new
     end
+
+    ##
+    # Starts the daemon's forked process; reopens $stderr and $stdout
 
     def start
       running, pid = status
@@ -40,6 +49,11 @@ module ArtificerRuby
       Pid.new
     end
 
+    ##
+    # Checks the status of the daemon based on PID.
+    #
+    # Also see Pid.new()
+
     def status
       if pid = Pid.new
         begin
@@ -55,6 +69,9 @@ module ArtificerRuby
         return false, pid
       end
     end
+
+    ##
+    # Stops a running process by sending it a trap(:TERM) signal.
 
     def stop
       running, pid = status

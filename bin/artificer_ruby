@@ -6,20 +6,18 @@ if __NAME__ = $PROGRAM_NAME
   if ARGV.empty?
     ArtificerRuby.new
     exit 0
+  elsif ARGV.include?('--help')
+    puts 'Run without any arguments to initialize a configuration and verify Artifactory connection.'
+    puts "Daemon controls: 'start','status','stop'"
+    exit 0
   end
 
-  daemon = ArtificerRuby::Daemon.new
-  arg = ARGV.shift
-
-  case arg
-  when 'start'
-    daemon.start
-  when 'status'
-    daemon.status
-  when 'stop'
-    daemon.stop
+  action = ARGV.shift
+  if %w[start status stop].include?(action)
+    daemon = ArtificerRuby::Daemon.new
+    daemon.send(action)
   else
-    puts "Invalid argument: #{arg}. Only 'stop', 'restart', or no argument is valid."
+    puts "Invalid actionument: #{action}. Only 'stop', 'restart', or no actionument is valid."
   end
 end
 

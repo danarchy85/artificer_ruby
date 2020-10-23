@@ -1,47 +1,48 @@
 ---
 OL8_BaseOS:
   routines:
-    - prepare_new_local_repository
-    - cache_remote_repository:
-      - "/repodata/"
-      - 5
-    - copy_remote_repository_cache
-    - update_virtual_repositories
-  remote:
-    key: remote.OL8_BaseOS
-    rclass: remote
-    package_type: rpm
-    url: https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64
-    description: Remote - Oracle Linux 8 (x86_64) BaseOS Latest
-  local:
-    key: local.OL8_BaseOS
-    rclass: local
-    package_type: rpm
-  virtual:
-    key: virtual.OL8_BaseOS
-    rclass: virtual
-    package_type: rpm
-    repositories:
+  - create_archive_local_repository
+  - cache_remote_repository:
+    - "/repodata/"
+    - 5
+  - copy_remote_repository_cache
+  - update_virtual_repositories
+  repos:
+    remote:
+      key: remote.OL8_BaseOS
+      rclass: remote
+      package_type: rpm
+      url: https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64
+      description: Remote - Oracle Linux 8 (x86_64) BaseOS Latest
+    local:
+      key: local.OL8_BaseOS
+      rclass: local
+      package_type: rpm
+    virtual:
+      key: virtual.OL8_BaseOS
+      rclass: virtual
+      package_type: rpm
+      repositories:
       - local.OL8_BaseOS
-  archive: []
 OL8_EPEL:
   routines:
-    - cache_remote_repository:
-      - "/repodata/"
-      - 5
-  remote:
-    key: remote.OL8_EPEL
-    rclass: remote
-    package_type: rpm
-    url: https://yum.oracle.com/repo/OracleLinux/OL8/developer/EPEL/x86_64
-    description: Remote - Oracle Linux 8 (x86_64) EPEL
-  local:
-    key: local.OL8_EPEL
-    rclass: local
-    package_type: rpm
-  virtual:
-    key: virtual.OL8_EPEL
-    rclass: virtual
-    package_type: rpm
-    repositories:
+  - cache_remote_repository:
+    - "/repodata/"
+    - 5
+  repos:
+    remote:
+      key: remote.OL8_EPEL
+      rclass: remote
+      package_type: rpm
+      url: https://yum.oracle.com/repo/OracleLinux/OL8/developer/EPEL/x86_64
+      description: Remote - Oracle Linux 8 (x86_64) EPEL
+    local:
+      key: local.OL8_EPEL
+      rclass: local
+      package_type: rpm
+    virtual:
+      key: virtual.OL8_EPEL
+      rclass: virtual
+      package_type: rpm
+      repositories:
       - local.OL8_EPEL

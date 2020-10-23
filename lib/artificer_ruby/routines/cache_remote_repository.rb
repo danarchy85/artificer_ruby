@@ -1,18 +1,25 @@
 
 module ArtificerRuby
   class Routines
+    ##
+    # Cache a remote repository's artifacts
+    #
+    # Accepted arguments: ['path_name', limit=Int] (default: path='/', limit=nil)
+    #
+    # JFrog Artifactory and the Ruby 'Artifactory' client appear to only list cached files
+    # and cannot copy uncached files it cannot see.
+    #
+    # This method scrapes Artifactory's HTML output of a repository and requests each
+    # file to force Artifactory to cache them.
+
     def cache_remote_repository(args=Array.new)
       # path: '/repodata/'
       # limit: Int # used for debugging to only process the first N artifacts
       # http_timeout: Int # Timeout in seconds for each HTTP request
 
-      # JFrog Artifactory and this Ruby client appear to only list cached files
-      # This method scrapes Artifactory's HTML output of a repo and requests each
-      #  file to force Artifactory to cache them.
-
       path  = args.shift || '/'
       limit = args.shift || nil
-      return if ! valid_path(path)
+      return if ! valid_path?(path)
       r = @repos.remote
       source_path = r.key + path
       files = Array.new

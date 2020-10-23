@@ -1,14 +1,18 @@
 
 module ArtificerRuby
   class Routines
+    ##
+    # Copies artifacts from remote repo to local repo
+    #
+    # Accepted arguments: ['/path_name/'] (default: path='/')
+    #
+    # *Only cached artifacts can be copied so cache them first with #cache_remote_repository()
+
     def copy_remote_repository_cache(args=Array.new)
       # path:   '/repodata/'
 
-      # Copies artifacts from remote repo to local repo
-      #  *Only cached artifacts can be copied so cache them first with #cache_remote_repository()
-
       path = args.shift || '/'
-      return if ! valid_path(path)
+      return if ! valid_path?(path)
 
       r_remote = @repos.remote
       r_local  = @repos.local

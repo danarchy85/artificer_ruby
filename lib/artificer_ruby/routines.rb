@@ -2,32 +2,46 @@ require "artificer_ruby/routines/cache_remote_repository"
 require "artificer_ruby/routines/copy_remote_repository_cache"
 
 module ArtificerRuby
+  ##
+  # Houses routines that can be run for a repository group
+
   class Routines
     def initialize
       @cfg = ArtificerRuby::Config.new
     end
 
+    ##
+    # Run all routines for each repository group
+
     def run_routines
       start = Time.now.utc
       puts "Running routines: #{start}"
-      @cfg.repo_groups.keys.each do |repo_group|
-        puts "Running routines for repository group: #{repo_group}"
-        @cfg.load(repo_group)
+      @cfg.rgroups.keys.each do |rgroup|
+        puts "\nRunning routines for repository group: #{rgroup}"
+        @cfg.load(rgroup)
         @repos = ArtificerRuby::Repositories.new(@cfg)
         @repos.apply_all
 
-        if @cfg.routines.nil?
-          puts "No routines defined in configuration."
-          next
-        end
-
+        next if @cfg.routines.nil?
         @cfg.routines.each do |routine|
           if routine.class == String
-            self.send(routine)
+            begin
+              self.send(routine)
+            rescue StandardError => e
+              puts e
+              puts "Invalid method: #{routine}. Skipping the rest of this group's repositories."
+              next
+            end
           elsif routine.class == Hash
             args    = routine.values.first.dup
             routine = routine.keys.first
-            self.send(routine, args)
+            begin
+              self.send(routine, args)
+            rescue StandardError => e
+              puts e
+              puts "Invalid method: #{routine}. Skipping the rest of this group's repositories."
+              next
+            end
           else
             puts "Invalid format for routine: #{routine}. Needs to be a string or hash."
             next
@@ -40,9 +54,15 @@ module ArtificerRuby
       puts "(#{(finish - start).round(2)} seconds)"
     end
 
-    def prepare_new_local_repository
-      @remove, @add = @repos.generate_local_datestamp_repository
+    ##
+    # See: ArtificerRuby::Repositories.generate_local_datestamp_repository
+
+    def create_archive_local_repository
+      @remove, @add = @repos.generate_and_archive_local_repository
     end
+
+    ##
+    # See: ArtificerRuby::Repositories.update_virtual_repositories
 
     def update_virtual_repositories
       return if @remove.nil? || @add.nil?
@@ -50,7 +70,11 @@ module ArtificerRuby
     end
 
     private
-    def valid_path(path)
+
+    ##
+    # Validate that the given path begins and ends with a forward slash
+
+    def valid_path?(path)
       if path != '/' && path !~ /^\/.*\/$/
         puts "Path '#{path}' must begin and end with a forward slash."
         return false
@@ -58,5 +82,5 @@ module ArtificerRuby
 
       true
     end
-  end  
+  end
 end

@@ -35,7 +35,8 @@ run and is input in standard crontab format. date_format configures the format o
 datestamp that is used to name new local repositories. Default settings are probably okay.
 
 **Note!** avoid using `/,\,:,|,?,<,>,*,"` in date_format as it is incompatible with
-Artifactory repository naming schemas.
+Artifactory repository naming schemas. For example: `%Y-%m-%d_%H:%M:%S` will error upon
+repo creation in Artifactory due to the colons in the time. `%Y%m%d_%H%M%S` is the default.
 
     :~/github/artificer_ruby git:(main) $ bin/artificer_ruby start
     Creating configuration directories at: /home/dan/.config/artificer_ruby

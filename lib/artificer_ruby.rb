@@ -1,5 +1,7 @@
 require "artifactory"
+require "rufus-scheduler"
 require "artificer_ruby/config"
+require "artificer_ruby/daemon"
 require "artificer_ruby/helpers"
 require "artificer_ruby/repositories"
 require "artificer_ruby/routines"
@@ -10,8 +12,47 @@ module ArtificerRuby
   def self.new
     cfg = ArtificerRuby::Config.new
     connect_to_artifactory(cfg)
-    r = ArtificerRuby::Routines.new(cfg)
-    r.run_routines
+    cfg
+  end
+
+  class Runner
+    attr_reader :scheduler
+
+    def initialize
+      @cfg = ArtificerRuby::Config.new
+    end
+
+    def start
+      return if status
+      puts 'Starting ArtificerRuby'
+      @scheduler = Rufus::Scheduler.new
+
+      @scheduler.cron @cfg.schedule do
+        ArtificerRuby.new
+        routines = ArtificerRuby::Routines.new
+        routines.run_routines
+      end
+    end
+
+    def status
+      return false if @scheduler.nil?
+      @scheduler.jobs.any?
+    end
+
+    def stop
+      return status if @scheduler.nil?
+      puts 'Stopping ArtificerRuby'
+
+      until status == false
+        @scheduler.shutdown(:kill)
+        # @scheduler.jobs.map(&:unschedule)
+        sleep(1)
+      end
+
+      @scheduler = nil
+      puts 'Stopped ArtificerRuby'
+      status
+    end
   end
 
   private

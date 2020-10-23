@@ -3,6 +3,23 @@ require "bundler/setup"
 require "artificer_ruby"
 
 if __NAME__ = $PROGRAM_NAME
-  ArtificerRuby.new
+  if ARGV.empty?
+    ArtificerRuby.new
+    exit 0
+  end
+
+  daemon = ArtificerRuby::Daemon.new
+  arg = ARGV.shift
+
+  case arg
+  when 'start'
+    daemon.start
+  when 'status'
+    daemon.status
+  when 'stop'
+    daemon.stop
+  else
+    puts "Invalid argument: #{arg}. Only 'stop', 'restart', or no argument is valid."
+  end
 end
 

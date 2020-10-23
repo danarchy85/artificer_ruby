@@ -1,5 +1,5 @@
 ---
-endpoint: https://127.0.0.1:8080
+endpoint: http://127.0.0.1:8080
 username: admin
 password: password
 api_key: null

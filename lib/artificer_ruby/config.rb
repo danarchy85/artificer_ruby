@@ -7,19 +7,20 @@ module ArtificerRuby
     attr_reader :auth
     attr_reader :cfgdir
     attr_reader :cfgerr
-    attr_reader :cfglog
-    attr_reader :cfglogs
+    attr_reader :logdir
+    attr_reader :logout
+    attr_reader :logerr
     attr_reader :config
     attr_reader :repo_groups
     attr_reader :repos
     attr_reader :routines
-# '/,\,:,|,?,<,>,*,"' not allowed in repo names
+
     def initialize
       @cfgdir  = File.realpath(ENV['HOME']) +
                      '/.config/artificer_ruby'
-      @cfglogs = @cfgdir  + '/logs/'
-      @cfglog  = @cfglogs + 'stdout.log'
-      @cfgerr  = @cfglogs + 'stderr.log'
+      @logdir = @cfgdir + '/logs/'
+      @logout = @logdir + 'stdout.log'
+      @logerr = @logdir + 'stderr.log'
       load
     end
 
@@ -29,7 +30,7 @@ module ArtificerRuby
         Dir.mkdir(@cfgdir)
       end
 
-      Dir.mkdir(@cfglogs) if ! Dir.exist?(@cfglogs)
+      Dir.mkdir(@logdir) if ! Dir.exist?(@logdir)
 
       @cfgyaml = @cfgdir + '/' + yaml
       if ! File.exist?(@cfgyaml)

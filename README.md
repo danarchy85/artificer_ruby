@@ -34,7 +34,7 @@ Up first is the program's configuration. Schedule defines how frequently routine
 run and is input in standard crontab format. date_format configures the format of the
 datestamp that is used to name new local repositories. Default settings are probably okay.
 
-**Note!** avoid using '/,\,:,|,?,<,>,*,"' in date_format as it is incompatible with
+**Note!** avoid using `/,\,:,|,?,<,>,*,"` in date_format as it is incompatible with
 Artifactory repository naming schemas.
 
     :~/github/artificer_ruby git:(main) $ bin/artificer_ruby start

@@ -1,21 +1,22 @@
 # python_pull.py
 
-This branch is specifically for a python script to copy new or modified files from a remote
-repository to a local repository.
+This branch is specifically for a python script which compares a remote repository to a
+local repository and copies over and new or modified files.
 
 The script depends on ArtificerRuby to generate configurations for authentication and
-repository groups, so run that first from the 'main' git branch, then return back to this branch.
+repository groups, so run that first from the 'main' git branch.
 
-Once those configurations exist, run `cd python && bash ./setup.sh` to create a virtualenv
-and pull in the needed pip dependencies.
+Checkout this 'python_script' branch again once those configurations exist, and then run
+`cd python && bash ./setup.sh` to create a virtualenv and pull in the needed pip dependencies.
 
-Then within the python directory run `source ./venv/bin/activate` and `python python_pull.py`,
-which will output its help info.
+Within the python directory run `source ./venv/bin/activate` and `python python_pull.py`,
+to output the script's help info.
 
-python_pull.py requires a repository group name be provided and it can also take a directory argument:
+python_pull.py requires a repository group name be provided and it can also take an optional
+directory argument:
 
     :~/github/artificer_ruby git:(python_script) $ cd ./python && bash ./setup.sh
-    
+    :~/github/artificer_ruby/python git:(python_script) $ source ./venv/bin/activate
     (venv) :~/github/artificer_ruby/python $ python python_pull.py
     python_pull.py requires a repository group name. Ex: OL8_EPEL
         optionally, -d /dirname/ can be provided to sync that directory.

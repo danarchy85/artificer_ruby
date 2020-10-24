@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "artificer_ruby"
+
+if __NAME__ = $PROGRAM_NAME
+  if ARGV.empty?
+    ArtificerRuby.new
+    exit 0
+  elsif ARGV.include?('--help')
+    puts 'Run without any arguments to initialize a configuration and verify Artifactory connection.'
+    puts "Daemon controls: 'start','status','stop'"
+    exit 0
+  end
+
+  action = ARGV.shift
+  if %w[start status stop].include?(action)
+    daemon = ArtificerRuby::Daemon.new
+    daemon.send(action)
+  else
+    puts "Invalid actionument: #{action}. Only 'stop', 'restart', or no actionument is valid."
+  end
+end
+

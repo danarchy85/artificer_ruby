@@ -13,10 +13,18 @@ include Artifactory::Resource
 # ArtificerRuby
 
 module ArtificerRuby
+  ##
+  # Load Config or run first setup, then verify connection
+
   def self.new
     cfg = ArtificerRuby::Config.new
     connect_to_artifactory(cfg)
     cfg
+  end
+
+  def self.run_routines
+    routines = ArtificerRuby::Routines.new
+    routines.run_routines
   end
 
   ##
@@ -37,9 +45,7 @@ module ArtificerRuby
 
       @scheduler.cron @cfg.schedule do
         begin
-          ArtificerRuby.new
-          routines = ArtificerRuby::Routines.new
-          routines.run_routines
+          ArtificerRuby.run_routines
         rescue StandardError => e
           puts e
         end
@@ -74,7 +80,7 @@ module ArtificerRuby
     if System.ping
       puts "Connected to Artifactory: #{Artifactory.endpoint}"
     else
-      abort('Failed to connect to Artifactory!')
+      puts 'Failed to connect to Artifactory!'
     end
   end
 end

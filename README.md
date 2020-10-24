@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # python_pull.py
 
 This branch is specifically for a python script which compares a remote repository to a
@@ -10,6 +11,53 @@ Checkout this 'python_script' branch again once those configurations exist, and 
 `cd python && bash ./setup.sh` to create a virtualenv and pull in the needed pip dependencies.
 
 Within the python directory run `source ./venv/bin/activate` and `python python_pull.py`,
+=======
+<<<<<<< Updated upstream
+=======
+# python_pull.py
+
+This branch is specifically for a python script which compares a remote repository to a
+local repository and copies over new or modified files.
+
+The script depends on ArtificerRuby to generate configurations for authentication and
+repository groups and to cache the remote repository's artifacts, so run that first from
+the 'main' git branch.
+
+The ArtificerRuby::Routine `cache_remote_repository` will handle caching the remote repository.
+The default repository_groups.yaml ArtificerRuby installs assumes this with a limit `- 5` to
+minimize the amount of data copied in this example.
+
+For example:
+
+    OL8_EPEL:
+    routines:
+    - cache_remote_repository:
+        - "/repodata/"
+        - 5
+    repos:
+      remote:
+        key: remote.OL8_EPEL
+        rclass: remote
+        package_type: rpm
+        url: https://yum.oracle.com/repo/OracleLinux/OL8/developer/EPEL/x86_64
+        description: Remote - Oracle Linux 8 (x86_64) EPEL
+      local:
+        key: local.OL8_EPEL
+        rclass: local
+        package_type: rpm
+      virtual:
+        key: virtual.OL8_EPEL
+        rclass: virtual
+        package_type: rpm
+        repositories:
+        - local.OL8_EPEL"
+
+To run the python_pull.py script, Checkout this 'python_script' branch again once those
+configurations exist, and then run `cd python && bash ./setup.sh` to create a virtualenv
+and pull in the needed pip dependencies.
+
+Within the same ./python directory run `source ./venv/bin/activate` and `python python_pull.py`,
+>>>>>>> Stashed changes
 to output the script's help info.
 
 python_pull.py requires a repository group name be provided and it can also take an optional
@@ -22,7 +70,62 @@ directory argument:
         optionally, -d /dirname/ can be provided to sync that directory.
     Example: python python_pull.py OL8_EPEL -d /repodata/
 
+<<<<<<< Updated upstream
 -------------------------
+=======
+Running python_pull.py on the OL8_EPEL repository group on the /repodata/ directory will
+grab directory listings of both repositories, compare them to one another, and if a file
+does not exist on the local repository, or does not match the remote file's sha256 sum,
+it will copy over the file to add or update it in the local repository.
+
+In this example, 6 files exist on the remote cache, and 2 of those files with older content
+already exist on the local repository. It will copy over the four new files, and overwrite
+the two updated files.
+
+    (venv) :~/github/artificer_ruby/python  $ python python_pull.py OL8_EPEL -d repodata
+    Loaded auth http://localhost:8082/artifactory/
+    Fetching file list from: remote.OL8_EPEL-cache/.
+    Found 6 artifacts.
+    Fetching file list from: local.OL8_EPEL/.
+    Found 2 artifacts.
+    New file: Gemfile
+    New file: Gemfile.lock
+    Files differ: LICENSE
+    Files differ: README.md
+    New file: Rakefile
+    New file: artificer_ruby.gemspec
+
+    Copying files from remote.OL8_EPEL-cache/ to local.OL8_EPEL/
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Gemfile
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/Gemfile
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Gemfile to http://localhost:8082/artifactory/local.OL8_EPEL/Gemfile
+
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Gemfile.lock
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/Gemfile.lock
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Gemfile.lock to http://localhost:8082/artifactory/local.OL8_EPEL/Gemfile.lock
+
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/LICENSE
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/LICENSE
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/LICENSE to http://localhost:8082/artifactory/local.OL8_EPEL/LICENSE
+
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/README.md
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/README.md
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/README.md to http://localhost:8082/artifactory/local.OL8_EPEL/README.md
+
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Rakefile
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/Rakefile
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/Rakefile to http://localhost:8082/artifactory/local.OL8_EPEL/Rakefile
+
+    Source: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/artificer_ruby.gemspec
+    Destination: http://localhost:8082/artifactory/local.OL8_EPEL/artificer_ruby.gemspec
+    Copied: http://localhost:8082/artifactory/remote.OL8_EPEL-cache/artificer_ruby.gemspec to http://localhost:8082/artifactory/local.OL8_EPEL/artificer_ruby.gemspec
+
+This should result in a local repository collecting remote artifacts over time, updating modified files, and retaining old files
+when removed from the remote repository.
+
+-------------------------
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 # ArtificerRuby
 A Ruby gem to facilitiate routines in Artifactory
 

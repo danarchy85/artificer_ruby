@@ -98,7 +98,7 @@ I'll break down each one of these groups and how to configure them in more detai
     ---
     OL8_BaseOS:
     routines:
-      - prepare_new_local_repository
+      - create_archive_local_repository
       - cache_remote_repository:
           - "/repodata/"
           - 5
@@ -208,23 +208,24 @@ one of the methods found in the ArtificerRuby::Routines class. If a method is mi
 or simply does not exist, the program will skip the rest of this group's routines and
 continue on to any other repository groups.
 
-If the routine is a string as `prepare_new_local_repository` is in this example, it will call
+If the routine is a string as `create_archive_local_repository` is in this example, it will call
 that method with no arguments passed.
 
 If the routine is a hash as `cache_remote_repository` is in this example, the key is the method name,
-and its value is an array of arguments that will be passed to that called method. Here we see
-`['/repodata/', 5]` passed as the path being cached, and 5 as the limit to number of artifacts to cache.
-This limit is purely for testing/debugging and is probably not something most users will use.
+and its value is an array of arguments that will be passed to that called method. This example passes
+`['/repodata/', 5]` as the path to be cached, and 5 as the limit to number of artifacts to cache.
+This limit is purely for testing/debugging and is probably not something most users will use, but it
+is set in this example to prevent a full replication of Oracle Linux 8's repository.
 
-`copy_remote_repository_cache` also accepts arguments, but in this case it will copy the full repository,
+The `copy_remote_repository_cache` routine also accepts arguments, but in this case it will copy the full repository,
 so no argument is passed.
 
-See each routine's documentation for what arguments are accepted.
+See each routine's documentation in RDoc for what arguments are accepted.
 
     ---
     OL8_BaseOS:
     routines:
-      - prepare_new_local_repository
+      - create_archive_local_repository
       - cache_remote_repository:
           - "/repodata/"
           - 5
@@ -258,25 +259,28 @@ so see their documentation for what parameters are allowed or required.
 
 ## Archive
 
-Archive is a feature that is a product of the `Routines.prepare_new_local_repository` method. See
-that method's documentation for more details, but in short: it creates a new local repository to 
-replace the existing local repository. Its name will be the same, but with a datestamp suffix added,
-so `local.OL8_BaseOS` becomes `local.OL8_BaseOS.20201023_221431`.
+Archive is a feature that is a result of the `Repositories.generate_and_archive_local_repository` method,
+which is called within the `create_archive_local_repository` routine. See that method's documentation for
+more details, but in short: it creates a new local repository based on the remote repository that will
+replace the existing local repository.
 
-The existing local repository's entry is pushed into the archive array for safe keeping and the local
-repository's key is updated to the newly created local repository.
+Its new name is taken from the remote repository's key with `remote` replaced with `local`, then a
+datestamp suffix added per Config.date_format, so `remote.OL8_BaseOS` becomes `local.OL8_BaseOS.20201023_221431`.
 
-In this example, the next routines then cache the remote repository so that it can copy its contents to
-the new datestamped local repository. And finally it updates the virtual repository; swapping the old
-local repository key with the new.
+The existing local repository's configuration is pushed into the archive array on the repository group for safe keeping.
 
-Below we can see that the routines have been run twice because there are two archives in the array at the bottom.
-And we can see the local repository is newly datestamped with `20201023_221431`, and the virtual repository
+In this example, the routines continue on with `cache_remote_repository` which caches the remote artifacts
+so that its contents can be copied with `copy_remote_repository_cache` to the new datestamped local repository.
+And finally it runs `update_virtual_repositories` to update the virtual repository; swapping the old local
+repository key with the new.
+
+Below shows that routines have been run twice because there are two archives in the array at the bottom.
+And it shows the local repository is newly datestamped with `20201023_221431`, and the virtual repository
 references it.
 
 
     routines:
-      - prepare_new_local_repository
+      - create_archive_local_repository
       - cache_remote_repository:
           - "/repodata/"
           - 5

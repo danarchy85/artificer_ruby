@@ -1,19 +1,3 @@
-<<<<<<< Updated upstream
-# python_pull.py
-
-This branch is specifically for a python script which compares a remote repository to a
-local repository and copies over and new or modified files.
-
-The script depends on ArtificerRuby to generate configurations for authentication and
-repository groups, so run that first from the 'main' git branch.
-
-Checkout this 'python_script' branch again once those configurations exist, and then run
-`cd python && bash ./setup.sh` to create a virtualenv and pull in the needed pip dependencies.
-
-Within the python directory run `source ./venv/bin/activate` and `python python_pull.py`,
-=======
-<<<<<<< Updated upstream
-=======
 # python_pull.py
 
 This branch is specifically for a python script which compares a remote repository to a
@@ -57,7 +41,6 @@ configurations exist, and then run `cd python && bash ./setup.sh` to create a vi
 and pull in the needed pip dependencies.
 
 Within the same ./python directory run `source ./venv/bin/activate` and `python python_pull.py`,
->>>>>>> Stashed changes
 to output the script's help info.
 
 python_pull.py requires a repository group name be provided and it can also take an optional
@@ -70,9 +53,6 @@ directory argument:
         optionally, -d /dirname/ can be provided to sync that directory.
     Example: python python_pull.py OL8_EPEL -d /repodata/
 
-<<<<<<< Updated upstream
--------------------------
-=======
 Running python_pull.py on the OL8_EPEL repository group on the /repodata/ directory will
 grab directory listings of both repositories, compare them to one another, and if a file
 does not exist on the local repository, or does not match the remote file's sha256 sum,
@@ -124,8 +104,6 @@ This should result in a local repository collecting remote artifacts over time, 
 when removed from the remote repository.
 
 -------------------------
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 # ArtificerRuby
 A Ruby gem to facilitiate routines in Artifactory
 

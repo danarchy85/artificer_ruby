@@ -69,6 +69,15 @@ module ArtificerRuby
       @repos.update_virtual_repositories(@remove, @add)
     end
 
+    ##
+    # Deletes all repositories in archive
+    #
+    # See ArtificerRuby::Repositories.cleanup_archive
+
+    def purge_archive
+      @repos.cleanup_archive
+    end
+
     private
 
     ##

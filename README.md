@@ -313,4 +313,6 @@ references it.
 
 ### Archive cleanup
 
-Should you want to clean up *all* archives, there is a method at `Repositories.cleanup_archive` to do just that.
+Should you want to clean up *all* archives, add the routine `purge_archive`, which runs the `Repositories.cleanup_archive`
+to do just that. For example, running it as the first routine would leave you with an active local repository and the
+previous one archived.

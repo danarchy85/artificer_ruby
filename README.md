@@ -1,3 +1,27 @@
+# python_pull.py
+
+This branch is specifically for a python script to copy new or modified files from a remote
+repository to a local repository.
+
+The script depends on ArtificerRuby to generate configurations for authentication and
+repository groups, so run that first from the 'main' git branch, then return back to this branch.
+
+Once those configurations exist, run `cd python && bash ./setup.sh` to create a virtualenv
+and pull in the needed pip dependencies.
+
+Then within the python directory run `source ./venv/bin/activate` and `python python_pull.py`,
+which will output its help info.
+
+python_pull.py requires a repository group name be provided and it can also take a directory argument:
+
+    :~/github/artificer_ruby git:(python_script) $ cd ./python && bash ./setup.sh
+    
+    (venv) :~/github/artificer_ruby/python $ python python_pull.py
+    python_pull.py requires a repository group name. Ex: OL8_EPEL
+        optionally, -d /dirname/ can be provided to sync that directory.
+    Example: python python_pull.py OL8_EPEL -d /repodata/
+
+-------------------------
 # ArtificerRuby
 A Ruby gem to facilitiate routines in Artifactory
 

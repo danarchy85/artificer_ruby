@@ -77,9 +77,7 @@ def main(rgroup, argv):
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt == '-h':
-            print('python_pull.py -r repository_group -d /repodata/')
-        elif opt in ('-d', '--dir'):
+        if opt in ('-d', '--dir'):
             basedir = arg
 
     sync   = SyncRepo(auth, basedir)
@@ -100,7 +98,8 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
     if argv == []:
         print('python_pull.py requires a repository group name. Ex: OL8_EPEL')
-        print(' optionally, -d /dirname/ can be provided to sync that directory.')
+        print('    optionally, -d /dirname/ can be provided to sync that directory.')
+        print('Example: python python_pull.py OL8_EPEL -d /repodata/')
     else:
         rgroup = argv.pop(0)
         main(rgroup, argv)

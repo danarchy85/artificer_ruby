@@ -45,6 +45,7 @@ module ArtificerRuby
 
       @scheduler.cron @cfg.schedule do
         begin
+          ArtificerRuby.new
           ArtificerRuby.run_routines
         rescue StandardError => e
           puts e

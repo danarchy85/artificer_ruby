@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    artificer_ruby (0.1.0)
+    artificer_ruby (0.1.2)
       artifactory (~> 3.0)
       rufus-scheduler (~> 3.6)
 

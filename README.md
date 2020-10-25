@@ -45,7 +45,9 @@ save them to `~/.config/artificer_ruby/`.
 Up first is the program's configuration. Default settings are probably okay.
 
 schedule:     crontab format string to define how frequently routines will run. 
+
 date_format:  configures the format of the datestamp that is used to name new local repositories.
+
 http_timeout: sets the allowable time for HTTP requests to cache artifacts.
 
 **Note!** schedule: crontab needs 6 items (eg: 0 7 1 * * *) or the daemon will hang indefinitely.
@@ -234,10 +236,10 @@ See each routine's documentation in RDoc for what arguments are accepted.
 
 ### Repositories
 
-Next we have this group's repositories defined. The keys 'remote','local','virtual' are treated 
-as static references in code to each corresponding repository. The naming of your repository is done
-within the hash as the `key` parameter. These entries match the parameter of Artifactory repositories,
-so see their documentation for what parameters are allowed or required.
+Next, the group's repositories are defined. The keys 'remote','local','virtual' are treated  as static
+references in code to each corresponding repository. The naming of your repository is done within the
+hash as the `key` parameter. These entries match the parameter of Artifactory repositories, so see their
+RDoc documentation or comments in code for what parameters are allowed or required.
 
     repos:
       remote:
@@ -314,5 +316,5 @@ references it.
 ### Archive cleanup
 
 Should you want to clean up *all* archives, add the routine `purge_archive`, which runs the `Repositories.cleanup_archive`
-to do just that. For example, running it as the first routine would leave you with an active local repository and the
-previous one archived.
+to do just that. For example, running `purge_archive` as the first routine before `create_archive_local_repository` will
+remove all existing archives and result in the previous local repository being retained.

@@ -57,7 +57,7 @@ repository creation in Artifactory due to the colons in the time. `%Y%m%d_%H%M%S
     :~/github/artificer_ruby git:(main) $ bin/artificer_ruby
     Creating configuration directories at: /home/dan/.config/artificer_ruby
     ---
-    schedule: 0 7 1 * *
+    schedule: 0 7 1 * * *
     date_format: "%Y%m%d_%H%M%S"
     http_timeout: 300
 
